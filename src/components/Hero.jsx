@@ -1,10 +1,12 @@
 import { useState } from "react";
+import Button from "./Button";
+import { TiLocationArrow } from "react-icons/ti";
 
 const Hero = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(1);
   const [nextVideoIndex, setNextVideoIndex] = useState(2);
   const [previousVideoIndex, setPreviousVideoIndex] = useState(4);
-  const [loadedVideo, setLoadedVideo] = useState(0)
+  const [loadedVideo, setLoadedVideo] = useState(0);
   const totalVideos = 4;
 
   const getNextVideoIndex = () => {
@@ -14,8 +16,8 @@ const Hero = () => {
   };
 
   const handleVideoLoad = () => {
-setLoadedVideo(pre => console.log(pre))
-  }
+    setLoadedVideo((pre) => console.log(pre));
+  };
 
   console.log(currentVideoIndex, nextVideoIndex);
 
@@ -50,9 +52,7 @@ setLoadedVideo(pre => console.log(pre))
             className="absolute left-0 top-0 size-full object-cover object-center"
           />
         </div>
-        <h1 className="absolute special-font hero-heading bottom-5 right-5 z-40 text-blue-75">
-          g<b>a</b>ming
-        </h1>
+     
         <div className="absolute left-0 top-0  z-40 size-full">
           <div className="mt-24 px-5 sm:px-10">
             <h1 className="special-font hero-heading text-blue-100">
@@ -61,9 +61,18 @@ setLoadedVideo(pre => console.log(pre))
             <p className="mb-5 max-w-64 font-robert-regular text-blue-100">
               Enter the Metagame Layer <br /> Unleash the Play Economy
             </p>
+            <Button
+              id="watch-trailer"
+              title="Watch Trailer"
+              leftIcon={<TiLocationArrow />}
+              containerClass="bg-yellow-300 flex-center gap-1"
+            />
           </div>
         </div>
       </div>
+      <h1 className="absolute special-font hero-heading bottom-5 right-5 text-black">
+          g<b>a</b>ming
+        </h1>
     </div>
   );
 };
