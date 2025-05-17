@@ -1,15 +1,20 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Button from "./Button";
 import { TiLocationArrow } from "react-icons/ti";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 const Hero = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(1);
   const [nextVideoIndex, setNextVideoIndex] = useState(2);
   const [previousVideoIndex, setPreviousVideoIndex] = useState(4);
+  const [hasClicked, setHasClicked] = useState(false);
   const [loadedVideo, setLoadedVideo] = useState(0);
+  const nextVideoRef = useRef(null)
   const totalVideos = 4;
 
   const getNextVideoIndex = () => {
+    setHasClicked(true);
     setPreviousVideoIndex(currentVideoIndex);
     setCurrentVideoIndex((currentVideoIndex % totalVideos) + 1);
     setNextVideoIndex(((currentVideoIndex + 1) % totalVideos) + 1);
@@ -18,6 +23,16 @@ const Hero = () => {
   const handleVideoLoad = () => {
     setLoadedVideo((pre) => console.log(pre));
   };
+
+  useGSAP(() => {
+    if (hasClicked) {
+
+    } 
+
+  }, {
+    dependencies: currentVideoIndex,
+    revertOnUpdate: true,
+  });
 
   console.log(currentVideoIndex, nextVideoIndex);
 
@@ -33,7 +48,8 @@ const Hero = () => {
               <video
                 loop
                 muted
-                className="size-64 origin-center scale-150 "
+                className="size-64 origin-center scale-150"
+                ref={nextVideoRef}
                 src={`videos/hero-${currentVideoIndex}.mp4`}
                 onLoadedData={handleVideoLoad}
                 onClick={() => getNextVideoIndex(currentVideoIndex)}
@@ -52,7 +68,7 @@ const Hero = () => {
             className="absolute left-0 top-0 size-full object-cover object-center"
           />
         </div>
-     
+
         <div className="absolute left-0 top-0  z-40 size-full">
           <div className="mt-24 px-5 sm:px-10">
             <h1 className="special-font hero-heading text-blue-100">
@@ -71,8 +87,8 @@ const Hero = () => {
         </div>
       </div>
       <h1 className="absolute special-font hero-heading bottom-5 right-5 text-black">
-          g<b>a</b>ming
-        </h1>
+        g<b>a</b>ming
+      </h1>
     </div>
   );
 };
