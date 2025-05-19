@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useRef, useState } from "react";
 import Button from "./Button";
 import { TiLocationArrow } from "react-icons/ti";
 import { useGSAP } from "@gsap/react";
@@ -8,8 +8,9 @@ const Hero = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(1);
   const [nextVideoIndex, setNextVideoIndex] = useState(2);
   const [previousVideoIndex, setPreviousVideoIndex] = useState(4);
-  const [hasClicked, setHasClicked] = useState(false);
+  const [isLoading, setIsLoading]  = useState(true)
   const [loadedVideo, setLoadedVideo] = useState(0);
+  const [hasClicked, setHasClicked] = useState(false);
   const nextVideoRef = useRef(null)
   const totalVideos = 4;
 
@@ -34,7 +35,6 @@ const Hero = () => {
     revertOnUpdate: true,
   });
 
-  console.log(currentVideoIndex, nextVideoIndex);
 
   return (
     <div className="relative h-dvh w-screen overflow-x-hidden">
@@ -43,13 +43,13 @@ const Hero = () => {
         className="relative z-10 h-dvh w-screen overflow-hidden rounded-lg bg-blue-75"
       >
         <div>
-          <div className="mask-clip-path  absolute-center absolute z-50 size-64 cursor-pointer overflow-hidden rounded-lg ">
+          <div className="mask-clip-path  absolute-center absolute z-50 size-64 cursor-pointer overflow-hidden rounded-lg">
             <div className="origin-center  scale-50 opacity-0 transition-all duration-500 ease-in hover:opacity-100 hover:scale-100 ">
               <video
+                ref={nextVideoRef}
                 loop
                 muted
                 className="size-64 origin-center scale-150"
-                ref={nextVideoRef}
                 src={`videos/hero-${currentVideoIndex}.mp4`}
                 onLoadedData={handleVideoLoad}
                 onClick={() => getNextVideoIndex(currentVideoIndex)}
