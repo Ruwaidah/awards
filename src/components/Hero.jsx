@@ -1,27 +1,17 @@
-<<<<<<< HEAD
 import { useRef, useState } from "react";
-=======
-import { useState, useRef } from "react";
 import Button from "./Button";
 import { TiLocationArrow } from "react-icons/ti";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
->>>>>>> f7917974fd4e129d1ac1a2cc3ac3c26da6857e2b
 
 const Hero = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(1);
   const [nextVideoIndex, setNextVideoIndex] = useState(2);
   const [previousVideoIndex, setPreviousVideoIndex] = useState(4);
-<<<<<<< HEAD
   const [isLoading, setIsLoading]  = useState(true)
   const [loadedVideo, setLoadedVideo] = useState(0);
-  const nextVideoRef = useRef(null);
-
-=======
   const [hasClicked, setHasClicked] = useState(false);
-  const [loadedVideo, setLoadedVideo] = useState(0);
   const nextVideoRef = useRef(null)
->>>>>>> f7917974fd4e129d1ac1a2cc3ac3c26da6857e2b
   const totalVideos = 4;
 
   const getNextVideoIndex = () => {
@@ -34,8 +24,6 @@ const Hero = () => {
   const handleVideoLoad = () => {
     setLoadedVideo((pre) => console.log(pre));
   };
-<<<<<<< HEAD
-=======
 
   useGSAP(() => {
     if (hasClicked) {
@@ -46,7 +34,6 @@ const Hero = () => {
     dependencies: currentVideoIndex,
     revertOnUpdate: true,
   });
->>>>>>> f7917974fd4e129d1ac1a2cc3ac3c26da6857e2b
 
 
   return (
@@ -63,7 +50,6 @@ const Hero = () => {
                 loop
                 muted
                 className="size-64 origin-center scale-150"
-                ref={nextVideoRef}
                 src={`videos/hero-${currentVideoIndex}.mp4`}
                 onLoadedData={handleVideoLoad}
                 onClick={() => getNextVideoIndex(currentVideoIndex)}
