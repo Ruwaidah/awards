@@ -1,16 +1,31 @@
+<<<<<<< HEAD
 import { useRef, useState } from "react";
+=======
+import { useState, useRef } from "react";
+import Button from "./Button";
+import { TiLocationArrow } from "react-icons/ti";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+>>>>>>> f7917974fd4e129d1ac1a2cc3ac3c26da6857e2b
 
 const Hero = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(1);
   const [nextVideoIndex, setNextVideoIndex] = useState(2);
   const [previousVideoIndex, setPreviousVideoIndex] = useState(4);
+<<<<<<< HEAD
   const [isLoading, setIsLoading]  = useState(true)
   const [loadedVideo, setLoadedVideo] = useState(0);
   const nextVideoRef = useRef(null);
 
+=======
+  const [hasClicked, setHasClicked] = useState(false);
+  const [loadedVideo, setLoadedVideo] = useState(0);
+  const nextVideoRef = useRef(null)
+>>>>>>> f7917974fd4e129d1ac1a2cc3ac3c26da6857e2b
   const totalVideos = 4;
 
   const getNextVideoIndex = () => {
+    setHasClicked(true);
     setPreviousVideoIndex(currentVideoIndex);
     setCurrentVideoIndex((currentVideoIndex % totalVideos) + 1);
     setNextVideoIndex(((currentVideoIndex + 1) % totalVideos) + 1);
@@ -19,6 +34,19 @@ const Hero = () => {
   const handleVideoLoad = () => {
     setLoadedVideo((pre) => console.log(pre));
   };
+<<<<<<< HEAD
+=======
+
+  useGSAP(() => {
+    if (hasClicked) {
+
+    } 
+
+  }, {
+    dependencies: currentVideoIndex,
+    revertOnUpdate: true,
+  });
+>>>>>>> f7917974fd4e129d1ac1a2cc3ac3c26da6857e2b
 
 
   return (
@@ -34,7 +62,8 @@ const Hero = () => {
                 ref={nextVideoRef}
                 loop
                 muted
-                className="size-64 origin-center scale-150 "
+                className="size-64 origin-center scale-150"
+                ref={nextVideoRef}
                 src={`videos/hero-${currentVideoIndex}.mp4`}
                 onLoadedData={handleVideoLoad}
                 onClick={() => getNextVideoIndex(currentVideoIndex)}
@@ -53,9 +82,7 @@ const Hero = () => {
             className="absolute left-0 top-0 size-full object-cover object-center"
           />
         </div>
-        <h1 className="absolute special-font hero-heading bottom-5 right-5 z-40 text-blue-75">
-          g<b>a</b>ming
-        </h1>
+
         <div className="absolute left-0 top-0  z-40 size-full">
           <div className="mt-24 px-5 sm:px-10">
             <h1 className="special-font hero-heading text-blue-100">
@@ -64,9 +91,18 @@ const Hero = () => {
             <p className="mb-5 max-w-64 font-robert-regular text-blue-100">
               Enter the Metagame Layer <br /> Unleash the Play Economy
             </p>
+            <Button
+              id="watch-trailer"
+              title="Watch Trailer"
+              leftIcon={<TiLocationArrow />}
+              containerClass="bg-yellow-300 flex-center gap-1"
+            />
           </div>
         </div>
       </div>
+      <h1 className="absolute special-font hero-heading bottom-5 right-5 text-black">
+        g<b>a</b>ming
+      </h1>
     </div>
   );
 };
