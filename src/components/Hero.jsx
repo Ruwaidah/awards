@@ -7,11 +7,11 @@ import gsap from "gsap";
 const Hero = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(1);
   const [nextVideoIndex, setNextVideoIndex] = useState(2);
-  const [previousVideoIndex, setPreviousVideoIndex] = useState(4);
-  const [isLoading, setIsLoading]  = useState(true)
+  const [previousVideoIndex, setPreviousVideoIndex] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
   const [loadedVideo, setLoadedVideo] = useState(0);
   const [hasClicked, setHasClicked] = useState(false);
-  const nextVideoRef = useRef(null)
+  const nextVideoRef = useRef(null);
   const totalVideos = 4;
 
   const getNextVideoIndex = () => {
@@ -22,19 +22,41 @@ const Hero = () => {
   };
 
   const handleVideoLoad = () => {
-    setLoadedVideo((pre) => console.log(pre));
+    setLoadedVideo((prev) => prev + 1);
   };
 
-  useGSAP(() => {
-    if (hasClicked) {
+  useGSAP(
+    () => {
+      if (hasClicked) {
+        console.log("yes clicked");
+        gsap.set("#next-video", { visibility: "visible" });
 
-    } 
+        gsap.to("#next-video", {
+          transformOrigin: "center center",
+          scale: 1,
+          height: "100%",
+          width: "100%",
+          duration: 1,
+          ease: "power1.inOut",
+          onStart: () => nextVideoRef.current.play(),
+        });
 
-  }, {
-    dependencies: currentVideoIndex,
-    revertOnUpdate: true,
-  });
+        gsap.from("#current-video", {
+          transformOrigin: "center center",
+          scale: 0,
+          duration: 1.5,
+          ease: "power1.inOut",
+        });
+      }
+    },
+    {
+      dependencies: [currentVideoIndex],
+      revertOnUpdate: true,
+    }
+  );
 
+  console.log(previousVideoIndex, currentVideoIndex, nextVideoIndex);
+  // console.log((currentVideoIndex + 1) % totalVideos + 1);
 
   return (
     <div className="relative h-dvh w-screen overflow-x-hidden">
@@ -46,22 +68,29 @@ const Hero = () => {
           <div className="mask-clip-path  absolute-center absolute z-50 size-64 cursor-pointer overflow-hidden rounded-lg">
             <div className="origin-center  scale-50 opacity-0 transition-all duration-500 ease-in hover:opacity-100 hover:scale-100 ">
               <video
+                id="current-video"
                 ref={nextVideoRef}
                 loop
                 muted
                 className="size-64 origin-center scale-150"
-                src={`videos/hero-${currentVideoIndex}.mp4`}
+                src={`videos/hero-${nextVideoIndex}.mp4`}
                 onLoadedData={handleVideoLoad}
                 onClick={() => getNextVideoIndex(currentVideoIndex)}
               />
             </div>
           </div>
           <video
+            ref={nextVideoRef}
+            loop
+            muted
+            id="next-video"
             className="absolute-center invisible absolute z-20 size-64 object-cover object-center"
-            src={`videos/hero-${nextVideoIndex}.mp4`}
+            src={`videos/hero-${currentVideoIndex}.mp4`}
+            onLoadedData={handleVideoLoad}
           />
           <video
             src={`videos/hero-${previousVideoIndex}.mp4`}
+            onLoadedData={handleVideoLoad}
             autoPlay
             muted
             loop
