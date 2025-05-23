@@ -25,12 +25,11 @@ const Hero = () => {
     setLoadedVideo((prev) => prev + 1);
   };
 
+  // animation  when click on video
   useGSAP(
     () => {
       if (hasClicked) {
-        console.log("yes clicked");
         gsap.set("#next-video", { visibility: "visible" });
-
         gsap.to("#next-video", {
           transformOrigin: "center center",
           scale: 1,
@@ -55,8 +54,25 @@ const Hero = () => {
     }
   );
 
-  console.log(previousVideoIndex, currentVideoIndex, nextVideoIndex);
-  // console.log((currentVideoIndex + 1) % totalVideos + 1);
+  // scroll down animation
+  useGSAP(() => {
+    gsap.set("#video-frame", {
+      clipPath: "polygon(14% 0%, 72% 0%, 90% 90%, 0% 100%)",
+      borderRadius: "0 0 50% 10%",
+    });
+
+    gsap.from("#video-frame", {
+      clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+      borderRadius: "0 0 0 0",
+      ease: "power1.inOut",
+      scrollTrigger: {
+        trigger: "#video-frame",
+        start: "center center",
+        end: "bottom center",
+        scrub: true,
+      },
+    });
+  }, {});
 
   return (
     <div className="relative h-dvh w-screen overflow-x-hidden">
@@ -114,6 +130,9 @@ const Hero = () => {
             />
           </div>
         </div>
+        <h1 className="absolute special-font hero-heading bottom-5 right-5 text-blue-75">
+          g<b>a</b>ming
+        </h1>
       </div>
       <h1 className="absolute special-font hero-heading bottom-5 right-5 text-black">
         g<b>a</b>ming
